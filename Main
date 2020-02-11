@@ -1,0 +1,336 @@
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        //min()
+        System.out.println("min(3,4)\t3\t" + min(3,4));
+        System.out.println("min(4,3)\t3\t" + min(3,4));
+        //min()
+        int[] a = {1,5,3,7,2,65,8};
+        int[] b = {9,6,34,23,8,6,5,3,2};
+        System.out.println("min(a)\t\t1\t" + min(a));
+        System.out.println("min(b)\t\t2\t" + min(b));
+        //add()
+        System.out.println("add(a,b)\t{10,11,37,30,10,71,13,3,2}\t" + prettyPrint(add(a,b)));
+        //mode()
+        System.out.println("mode(a)\t\t0\t" + mode(a));
+        System.out.println("mode(b)\t\t6\t" + mode(b));
+        //prettyPrint()
+        System.out.println("prettyPrint(a)\t\t{1,5,3,7,2,65,8}\t" + prettyPrint(a));
+        //copy()
+        int[] c = copy(a);
+        c[0] = 5;
+        System.out.println("copy(a)\t\t1\t"+a[0]);
+        //resize()
+        System.out.println("resize(a,3)\t{1,5,3}\t" + prettyPrint(resize(a,3)));
+        System.out.println("resize(a,3)\t7\t" + a.length);
+        System.out.println("resize(a,9)\t{1,5,3,7,2,65,8,0,0}\t" + prettyPrint(resize(a,9)));
+        System.out.println("resize(a,9)\t7\t" + a.length);
+        //append()
+        int[] d = {1,2,3,4};
+        int[] e = {5,6,7};
+        System.out.println("append(d,e)\t{1,2,3,4,5,6,7}\t" + prettyPrint(append(d,e)));
+        System.out.println("append(d,e)\t4\t" + d.length);
+        System.out.println("append(d,e)\t3\t" + e.length);
+        System.out.println("append(null,e)\t{5,6,7}\t\t" + prettyPrint(append(null,e)));
+        System.out.println("append(d,null)\t{1,2,3,4}\t" + prettyPrint(append(d,null)));
+        //remove()
+        System.out.println("remove(a,2)\t{1,5,7,2,65,8}\t" + prettyPrint(remove(a,2)));
+        //subArray()
+        System.out.println("subArray(a,3,5)\t{7,2}\t" + prettyPrint(subArray(a,3,5)));
+        System.out.println("subArray()\t7\t" + a.length);
+        System.out.println("subArray(a,4,7)\t{2,65,8}\t" + prettyPrint(subArray(a,4,7)));
+        System.out.println("subArray(a,3,3)\tnull\t" + prettyPrint(subArray(a,3,3)));
+        System.out.println("subArray(a,5,3)\tnull\t" + prettyPrint(subArray(a,5,3)));
+        //makeSorted()
+        makeSorted(a);
+        System.out.println("makeSorted(a)\t{1,2,3,5,7,8,65}\t" + prettyPrint(a));
+        //sort()
+        System.out.println("sort(b)\t{2,3,5,6,6,8,9,23,34}\t" + prettyPrint(sort(b)));
+        //merge()
+        System.out.println("merge(a,d)\t{1,1,2,2,3,3,4,5,7,8,65}\t" + prettyPrint(merge(a,d)));
+    }//end main()
+    //Math Functions
+    //min()
+    //Returns the smaller of a and b.
+    public static int min(int a, int b)
+    {
+        int rv = 0;
+        if(a < b)
+        {
+            rv = a;//assigns rv to a if its the minimum
+        }
+        else if (b == a)
+        {
+            rv = 0;//assigns rv to 0 if same
+        }
+        else if (b < a)
+        {
+            rv = b;//assigns rv to b if its the minimum
+        }
+        return rv;
+    }//end min()
+    //2nd min()
+    // Returns the smallest element.
+    public static int min(int[] a)
+    {
+        int rv = a[0];//sets value of first array value
+        for(int i=0; i<a.length;i++)
+        {
+            if (a[i] < rv)//enter is i array value < first array value
+            {
+                rv = a[i];//assigns rv to smaller number until it gets to smallest number
+            }
+        }
+        return rv;
+    }//end min()
+    //add()
+    //Add elements by index.
+    //Ex, {1,2,3} + {4,5,6} => {5,7,9}.
+    //If the arrays are different sizes, add corresponding elements and do nothing with the others.
+    //{1,2}+{1,2,3} => {2,4,3}
+    public static int [] add(int[] a, int[] b)
+    {
+        int c[] = new int[b.length];//c = same length as b
+
+        for (int i = 0; i < a.length; i++)
+        {
+            c[i] = a[i] + b[i];//adds a and b value to c value
+            int difference = b.length - a.length;//diff between array lengths
+            for (int j=1; j < difference+1; j++)
+            {
+                c[b.length-j] = b[b.length-j];//assigns c value with b value
+            }
+        }
+        return c;
+    }//end add()
+    //mode()
+    //Returns the mode. Returns any value if more than one.
+    public static int mode(int[] a)
+    {
+       int rv = 0;
+       int value = 0;
+       int value2 = 0;
+       for (int i=0; i<a.length; i++)//enter
+       {
+           value = a[i];//assigns a[i] to value
+           for (int j=0; j<a.length; j++)
+           {
+               value2 = a[j];//assigns a[j] to value2
+               if(value==value2 && i!=j)//enter if both values are equal and i!=j
+               {
+                   rv = a[i];//assigns a[i] to rv
+               }
+           }
+       }
+       return rv;
+    }//end mode()
+    //General Functions
+    //prettyPrint()
+    //Returns a nice looking string such as "{1,2,3}"
+    public static String prettyPrint(int[] a)
+    {
+        String rv = "{";//starts array with opening brackets
+        if(a==null)
+        {
+            rv = null;//assigns null to rv
+        }
+        else {
+            for (int i = 0; i < a.length; i++) {
+                rv = rv + a[i] + ",";//adds new rv and comma each time
+            }
+            rv = rv.substring(0, rv.length() - 1) + "}";//cuts off last comma+closes brackets
+        }
+        return rv;
+    }//end prettyPrint()
+    //copy()
+    //Returns a separate array with the same elements.
+    public static int[] copy(int[] a)
+    {
+        int[] c = new int[a.length];//new array, length of money array
+        for (int i = 0; i< a.length; i++)
+        {
+            c[i] = a[i];//copies money to array b
+        }
+        return c;
+    }//end copy()
+    //resize()
+    //Returns a new array with extra spaces added (filled with 0's) or truncated (cut off).
+    //Ex, resize( {1,2,3,4,5} , 8) => {1,2,3,4,5,0,0,0}.
+    //Ex, resize( {1,2,3,4,5} , 3) => {1,2,3}.
+    public static int[] resize(int[] a, int newLength)
+    {
+        int[] d = new int[newLength];//new array
+        if (a.length > newLength)//if resize is smaller
+        {
+            for (int i = 0; i < newLength; i++)
+            {
+                d[i] = a[i];//assigns all a values to d until it stops
+            }
+        }
+        else if (newLength > a.length)//if resize is bigger
+        {
+            for (int i = 0; i < a.length; i++)
+            {
+                d[i] = a[i];//assigns a values to d
+                int difference = d.length - a.length;//diff between lengths (2)
+                for (int j = 1; j < difference + 1; j++)
+                {
+                    d[d.length - j] = 0;//assigns extra d values to 0
+                }
+            }
+        }
+        return d;
+    }//end resize()
+    //append()
+    //Returns a single array with a appended to b.
+    // Remember to consider null!
+    public static int[] append(int[] a, int[] b)
+    {
+        int r[] = new int[0];//new r array
+        if(a==null && b!=null)//enter if a is null
+        {
+            int f[] = new int[b.length];//new f array
+            for (int i = 0; i < b.length; i++)
+            {
+                f[i] = b[i];//assigns b values to f
+            }
+            r = f;//assigns f to r
+        }
+        else if(a!=null && b==null)//enter if b is null
+        {
+            int f[] = new int[a.length];//new f array
+            for (int i = 0; i < a.length; i++)
+            {
+                f[i] = a[i];//assigns a values to f
+            }
+            r = f;//assigns f to r
+        }
+        else {
+            int f[] = new int[b.length + a.length];//new f array
+            for (int i = 0; i < f.length; i++)
+            {
+                if (i < a.length)
+                {
+                    f[i] = a[i];//assign a values to f
+                }
+                else if (i >= a.length)
+                {
+                    f[i] = b[i - a.length];//assigns b values of i-4 to f
+                }
+            }
+            r = f;//assigns f to r
+        }
+        return r;
+    }//end append()
+    //remove()
+    //Removes a single element from the array
+    public static int[] remove(int[] a, int index)
+    {
+        int f[] = new int[a.length-1];//new array f
+        for (int i = 0; i < index; i++)
+        {
+            f[i] = a[i];//assigns a values to f
+        }
+        for (int j = index; j < a.length-1; j++)//skips the removed index
+        {
+            f[j] = a[j + 1];//assigns a values to f-1
+        }
+        return f;
+    }//end remove()
+    //subArray()
+    //// Returns a new array. Like substring, returns the subarray that starts at firstIncluded, and ends at firstExcluded-1.
+    //If the subarray contains no elements, or if the indexes are out of bounds, return null.
+    //Ex, subArray({0,1,2,3,4,5},2,4) => {2,3}.
+    //Ex, subArray({1,2,3},1,1) => null. subArray({1,2,3},4,1) => null.
+    public static int[] subArray(int[]a, int firstIncluded, int firstExcluded)
+    {
+        int r[] = new int[0];//new array r
+
+        if (firstIncluded != firstExcluded && firstIncluded < firstExcluded)
+        //enter if ranges are not same number and if first < last
+        {
+            int f[] = new int[firstExcluded-firstIncluded];//new array f
+            for (int i = firstIncluded; i < firstExcluded; i++)
+            {
+                f[i - firstIncluded] = a[i];//assigns a value to f
+            }
+            r=f;//sets r equal to f
+        }
+        if (firstIncluded == firstExcluded || firstIncluded > firstExcluded)
+        //enter if ranges are same number or first > last
+        {
+            r=null;//r is null
+        }
+        return r;
+    }//end subArray()
+    //Sorting Functions
+    //makeSorted()
+    //Sort ascending using Bubble Sort.
+    public static void makeSorted(int[] a)
+    {
+        for (int i = 0; i < a.length-1; i++)
+        {
+            for (int j = 0; j < a.length - i - 1; j++) {
+                if (a[j] > a[j + 1]) {
+                    int storage = a[j];//switches storage and a[j]
+                    a[j] = a[j + 1];//switches a[j] and a[j+1]
+                    a[j + 1] = storage;//switches a[j+1] and storage
+                }
+            }
+        }
+    }//end makeSorted()
+    //sort()
+    //Return an ascending sorted version of the argument using Bubble Sort without changing the argument.
+    public static int[] sort(int[] a)
+    {
+        int c[] = new int [a.length];//new array c
+        c = a;//assigns a to c
+        for (int i = 0; i < a.length-1; i++)
+        {
+            for (int j = 0; j < a.length - i - 1; j++) {
+                if (a[j] > a[j + 1]) {
+                    int storage = a[j];//switches storage and a[j]
+                    a[j] = a[j + 1];//switches a[j] and a[j+1]
+                    a[j + 1] = storage;//switches a[j+1] and storage
+                }
+            }
+        }
+        return c;
+    }//end sort()
+    //merge()
+    //ASSUME a AND b ARE SORTED ASCENDING!
+    //Combine a and b 1 element at a time from either a or b.
+    //At each step, take the smaller element from a and b, then remove it from consideration.
+    //Repeat until all elements from a and b are merged.
+    //The result should be a new array that is still sorted.
+    public static int[] merge(int[] a, int[] b)
+    {
+        int f[] = new int[b.length + a.length];//new array f
+        for (int i = 0; i < f.length; i++)
+        {
+            if (i < a.length)
+            {
+                f[i] = a[i];//assigns a values to f until a string is over
+            }
+            else if (i >= a.length)
+            {
+                f[i] = b[i - a.length];//assigns b values to f  until f length is reached
+            }
+        }
+        for (int k = 0; k < f.length-1; k++)
+        {
+            for (int j = 0; j < f.length - k - 1; j++) {
+                if (f[j] > f[j + 1]) {
+                    int storage = f[j];//switches storage and a[j]
+                    f[j] = f[j + 1];//switches a[j] and a[j+1]
+                    f[j + 1] = storage;//switches a[j+1] and storage
+                }
+            }
+        }
+        return f;
+    }//end merge()
+}
+
+
